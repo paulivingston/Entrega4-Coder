@@ -5,8 +5,14 @@ const app = express();
 const routerProductos = express.Router();
 
 app.use('/api/productos', routerProductos);
-
 routerProductos.use(express.json())
+routerProductos.use(express.urlencoded({extended: true}))
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use('/static', express.static('public'))
+
 
 const productos = [
   {title: 'Nombre 1', price: 100,  thumbnail: 'url 1'},
@@ -32,7 +38,7 @@ routerProductos.get('/:id', (req, res)=>{
 }
 )
 
-routerProductos.post('/', (req, res)=>{
+routerProductos.post('/guardar', (req, res)=>{
   productos.push(req.body);
   res.json(productos);
 })
